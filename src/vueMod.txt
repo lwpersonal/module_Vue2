@@ -1,3 +1,7 @@
+<style lang="stylus" scoped>
+@import '../../static/css/common.styl'
+</style>
+
 <template>
 
 </template>
@@ -27,7 +31,3 @@ export default class App extends Vue {
     this.$store.commit('_setData', data) }
 }
 </script>
-
-<style lang="stylus" scoped>
-@import '../../static/css/common.styl'
-</style>

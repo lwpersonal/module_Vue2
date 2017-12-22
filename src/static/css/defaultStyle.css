@@ -1,0 +1,152 @@
+/*
+ * @Author: AI
+ * @Date: 2017-10-11 21:02:43
+ * @Last Modified by: AI
+ * @Last Modified time: 2017-12-22 10:22:42
+ * @describe
+ */
+/*通用样式*/
+* {
+  /* 防止点击闪烁 */
+  -webkit-tap-highlight-color: transparent;
+  /* 缩放网页，文字大小不变 */
+  -webkit-text-size-adjust: none; 
+  margin: 0;
+  padding: 0;
+  /* 静止系统长按事件 */
+  /*  ios下出错，无法输入内容*/
+  /* -webkit-touch-callout: none;  
+  -webkit-user-select: none;  
+  -khtml-user-select: none;  
+  -moz-user-select: none;  
+  -ms-user-select: none;  
+  user-select: none;   */
+}
+
+body, p, ul, ol, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, image, input, textarea, button, div {
+  margin: 0;
+  padding: 0;
+  word-break: break-all;
+  /*可以在单词内换行*/ }
+
+
+/* 87.5 => 14px  100% => 16px */
+/* @media screen and (max-width: 450px) {
+  html { font-size: 87.5%; }
+}
+@media screen and (min-width: 450px) {
+  html { font-size: 100%; }
+} */
+  
+
+body {
+  /* font-size: 1rem; */
+  /*14px87.5%*/
+  font-family: Tahoma,"microsoft yahei",sans-serif;
+  -webkit-font-smoothing: antialiased;
+  /*抗锯齿*/
+  -moz-osx-font-smoothing: grayscale;
+  color: #666;
+  -webkit-tap-highlight-color: transparent;
+  /*去除移动端点击事件出现选中框*/
+  -webkit-touch-callout: none;
+  /*苹果触摸出现系统菜单*/ }
+
+table {
+  border-collapse: collapse;
+  /*让表格边框细线*/
+  border-spacing: 0;
+  /*清除边框间距*/ }
+
+fieldset {
+  border: 0 none;
+  /*有些浏览器默认这些标签有边框，所以要清除默认边框*/
+  display: block; }
+
+img {
+  vertical-align: middle;
+  border: 0 none;}
+
+address, caption, cite, code, dfn, em, i, u, b, strong, th, var {
+  font-style: normal;
+  font-weight: normal;
+  /*清除标签默认文本样式和加粗*/ }
+
+input, textarea, button {
+  border: 0;
+  outline: 0 none;
+  /*去掉文本框的默认轮廓线*/
+  -webkit-appearance: none; }
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #ccc; }
+
+ol, ul {
+  list-style: none;
+  /*清除列表默认样式*/ }
+
+caption, th {
+  text-align: left;
+  /*清除标签默认文本居中对齐*/ }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  /*清除标题标签的默认样式*/ }
+
+a {
+  cursor: pointer;
+  color: #666;
+  text-decoration: none;
+  /*大部分页面中的链接没有下划线*/
+  outline: none; }
+
+/*清除浮动*/
+.clearfix:after {
+  height: 0;
+  content: " ";
+  display: block;
+  overflow: hidden;
+  clear: both; }
+
+.clearfix {
+  zoom: 1;
+  /*IE低版本浏览器不支持after伪类所以要加这一句*/ }
+
+
+/* 字体图标默认样式 */
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+
+
+.blank {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background: rgba(0,0,0,0.05);
+}
+.line {
+  position: relative;
+  width: 100%;
+  height: 1px;
+}
+.line:after {
+  position: absolute;
+  content: '';
+  top: -50%;
+  bottom: -50%;
+  left: -50%;
+  right: -50%;
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+
+

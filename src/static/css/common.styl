@@ -1,0 +1,53 @@
+// color集合
+Blue = rgb(40, 164, 186)
+Red = #de5246
+Gray = #8d8d8d
+skeleton = #f2f2f2
+// stylus公共方法
+prefix(property, value) 
+  /* 内核前缀添加 */
+  -moz-{property} value
+  -webkit-{property} value
+  -o-{property} value
+  {property} value
+
+txtOverflow(lineNumber = 2)
+  text-overflow ellipsis
+  display -webkit-box //* 对象作为伸缩盒子模型显示 *
+  -webkit-box-orient vertical //* 设置或检索伸缩盒对象的子元素的排列方式 *
+  -webkit-line-clamp lineNumber //* 显示的行数 *
+  overflow hidden //* 隐藏超出的内容 *
+
+// 移动端1px边框
+Border(radius = 0, Bcolor = rgba(0,0,0,0.1), type = solid) 
+  position: relative
+  border-radius radius
+  &:after
+    position absolute
+    content ''
+    top -50%
+    bottom -50%
+    left -50%
+    right -50%
+    -webkit-transform scale(0.5)
+    transform scale(0.5)
+    border 1px type Bcolor
+    border-radius radius * 2
+
+// 移动端1px边框
+border_one(posit = 3, Bcolor = rgba(0,0,0,0.1), type = solid) 
+  // 1上下都有，2上border，3下border
+  position: relative
+  &:after
+    position absolute
+    content ''
+    top -50%
+    bottom -50%
+    left -50%
+    right -50%
+    -webkit-transform scale(0.5)
+    transform scale(0.5)
+    if posit == 2 || posit == 1
+      border-top 1px type Bcolor
+    if posit == 3 || posit == 1
+      border-bottom 1px type Bcolor

@@ -26,7 +26,6 @@ export default class App extends Vue {
   app: any = this.$store.state.AppVuex
   // 钩子函数
   mounted () {
-    let s: string
     console.log(this.app)
   }
   _upData(data: any) {

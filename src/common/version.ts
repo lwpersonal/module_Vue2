@@ -5,7 +5,7 @@
  * @Last Modified time: 2017-11-17 11:10:38
  * @description 判断浏览器信息
  */
-const getMobileInfo: any = () => {
+const getMobileInfo: any = (() => {
   const u: string = navigator.userAgent
   const app: string = navigator.appVersion
   const result: any = {
@@ -29,7 +29,6 @@ const getMobileInfo: any = () => {
     } // 其他信息
   }
   return result
-}
+})()
 
-const res = getMobileInfo()
-export default res
+export default getMobileInfo

@@ -46,7 +46,6 @@ body {
   -webkit-font-smoothing: antialiased;
   /*抗锯齿*/
   -moz-osx-font-smoothing: grayscale;
-  color: #666;
   -webkit-tap-highlight-color: transparent;
   /*去除移动端点击事件出现选中框*/
   -webkit-touch-callout: none;
@@ -95,7 +94,6 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
   cursor: pointer;
-  color: #666;
   text-decoration: none;
   /*大部分页面中的链接没有下划线*/
   outline: none; }

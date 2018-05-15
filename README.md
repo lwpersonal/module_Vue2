@@ -1,6 +1,4 @@
-#webpack3
-
-# resume
+# vuemod
 
 > A Vue.js project
 

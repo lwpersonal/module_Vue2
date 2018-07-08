@@ -1,0 +1,26 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+      "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+      "no-var-keyword": true,
+      "comment-format": [
+          true,
+          "check-space"
+      ],
+      "quotemark": false,
+      "triple-equals": true, // 必须用 === 代替 ==
+      "semicolon": false, // 行末分号
+      "ordered-imports": false, // 引入模块文件必须按照字母顺序排列
+      "no-unused-expression": false, // 未使用的表达式，开启后不能实例化vue
+      "trailing-comma": false, // object等，语句后必须加逗号
+      "object-literal-sort-keys": false, // 组件按字母顺序排列
+      "space-before-function-paren": true, // 函数前禁止空格
+      "switch-final-break": true, // 检测switch语句后是否有break
+      "variable-name": true, // 错误变量名检查
+      "arrow-parens": false // 箭头函数参数必须加括号
+  },
+  "rulesDirectory": []
+}

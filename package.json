@@ -5,14 +5,21 @@
   "author": "WenJW <17648253663@163.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "NODE_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "test": "webpack",
-    "build": "node build/build.js"
+    "build": "NODE_ENV=production node build/build.js"
   },
   "dependencies": {},
   "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/runtime": "^7.1.5",
+    "babel-loader": "^8.0.4",
+    "html-webpack-plugin": "^3.2.0",
+    "json-loader": "^0.5.7",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2"
   },

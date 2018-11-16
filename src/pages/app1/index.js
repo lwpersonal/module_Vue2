@@ -1,2 +1,2 @@
 const a = 1
-alert('app' + a)
+console.log('app' + a)

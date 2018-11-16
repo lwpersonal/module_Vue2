@@ -1,2 +1,6 @@
 const a = 2
-alert('app' + a)
+const fn = () => {
+  console.log('app' + a)
+}
+
+fn()

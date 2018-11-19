@@ -1,65 +1,104 @@
 'use strict'
 
+const utils = require('./utils')
+const webpack = require('webpack')
+const config = require('../config')
+const merge = require('webpack-merge')
 const path = require('path')
+const baseWebpackConfig = require('./webpack.base.conf')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const portfinder = require('portfinder')
 
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HOST = process.env.HOST
+const PORT = process.env.PORT && Number(process.env.PORT)
 
-console.log(process.env.NODE_ENV)
-
-const resolve = (dir) => {
-  return path.join(__dirname, '..', dir)
-}
-
-const webpackConfig = {
+const devWebpackConfig = merge(baseWebpackConfig, {
   mode: 'development',
-  context: path.resolve(__dirname, '../'),
-  entry: {
-    app1: './src/pages/app1/index.js',
-    app2: './src/pages/app2/index.js'
+  module: {
+    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
   },
-  output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: '[name]/[name].bundle.js',
-    publicPath: '/'
-  },
-  resolve: {
-    extensions: ['.js', '.json', 'less'],
-    alias: {
-      '@': resolve('src'),
+  // cheap-module-eval-source-map is faster for development
+  devtool: config.dev.devtool,
+
+  // these devServer options should be customized in /config/index.js
+  devServer: {
+    clientLogLevel: 'warning',
+    historyApiFallback: {
+      rewrites: [
+        { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
+      ],
+    },
+    disableHostCheck: true,
+    hot: true,
+    contentBase: false, // since we use CopyWebpackPlugin.
+    compress: true,
+    host: HOST || config.dev.host,
+    port: PORT || config.dev.port,
+    open: config.dev.autoOpenBrowser,
+    overlay: config.dev.errorOverlay
+      ? { warnings: false, errors: true }
+      : false,
+    publicPath: config.dev.assetsPublicPath,
+    proxy: config.dev.proxyTable,
+    quiet: true, // necessary for FriendlyErrorsPlugin
+    watchOptions: {
+      poll: config.dev.poll,
     }
   },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
-      }
-    ]
-  },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: './app1/index.html',
-      template: './src/pages/app1/index.html',
-      inject: true,
-      chunks: ['app1']
+    new webpack.DefinePlugin({
+      'process.env': require('../config/dev.env')
     }),
-    new HtmlWebpackPlugin({
-      filename: './app2/index.html',
-      template: './src/pages/app2/index.html',
-      inject: true,
-      chunks: ['app2']
-    }),
-  ],
-  node: {
-    setImmediate: false,
-    dgram: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty'
-  }
-}
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
+    new webpack.NoEmitOnErrorsPlugin(),
+    // https://github.com/ampedandwired/html-webpack-plugin
+    ...(utils.getAllHtmlWebpackConfig({
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+      },
+      hash: true,
+      chunksSortMode: 'dependency'
+    }))
+    // copy custom static assets
+    // new CopyWebpackPlugin([
+    //   {
+    //     from: path.resolve(__dirname, '../static'),
+    //     to: config.dev.assetsSubDirectory,
+    //     ignore: ['.*']
+    //   }
+    // ])
+  ]
+})
 
-module.exports = webpackConfig
+
+
+module.exports = new Promise((resolve, reject) => {
+  portfinder.basePort = process.env.PORT || config.dev.port
+  portfinder.getPort((err, port) => {
+    if (err) {
+      reject(err)
+    } else {
+      // publish the new Port, necessary for e2e tests
+      process.env.PORT = port
+      // add port to devServer config
+      devWebpackConfig.devServer.port = port
+
+      // Add FriendlyErrorsPlugin
+      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
+        compilationSuccessInfo: {
+          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
+        },
+        onErrors: config.dev.notifyOnErrors
+        ? utils.createNotifierCallback()
+        : undefined
+      }))
+
+      resolve(devWebpackConfig)
+    }
+  })
+})
 

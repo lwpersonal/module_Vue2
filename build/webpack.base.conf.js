@@ -3,13 +3,14 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
-const appList = require('../config/appList')
+const appList = require('../config/app_list')
 const { VueLoaderPlugin } = require('vue-loader')
 
 const resolve = (dir) => {
   return path.join(__dirname, '..', dir)
 }
 
+// 根据 appList 获取 entry 的配置
 const getEntryCOnfig = () => {
   const res = {}
   const rootPrefix = './src/pages'
@@ -43,6 +44,7 @@ const webpackConfig = {
   resolve: {
     extensions: ['.js', '.vue', '.json', 'less'],
     alias: {
+      'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
     }
   },

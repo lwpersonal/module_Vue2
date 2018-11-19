@@ -3,6 +3,9 @@ const path = require('path')
 const config = require('./config')
 
 module.exports = {
+  base: {
+    pathPrefix: './src/pages/' // 打包入口目录
+  },
   dev: {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),

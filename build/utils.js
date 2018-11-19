@@ -1,13 +1,11 @@
 'use strict'
 const path = require('path')
-const fs = require('fs-extra')
-const slash = require('slash')
-const config = require('./index')
+const config = require('../config')
 // const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const packageConfig = require('../package.json')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const pageList = require('./pageList')
+const appList = require('../config/app_list')
 
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -101,42 +99,30 @@ exports.createNotifierCallback = () => {
   }
 }
 
-const createHtmlWebpackConfig = (template, chunkname) => {
-  const dev = process.env.NODE_ENV === 'production' ? false : true
-  const pluginConfig = dev
-    ? {
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-      },
-      hash: true,
-      chunksSortMode: 'dependency'
-    } : { }
-
+const createHtmlWebpackConfig = (template, chunkname, pluginConfig) => {
   return new HtmlWebpackPlugin({
-    filename: `${dev ? config.dev.assetsRoot : config.build.assetsRoot}/${chunkname}/index.html`,
+    filename: `./${chunkname}/index.html`,
     template,
     inject: true,
     favicon: '',
-    chunks: chunkname,
+    chunks: [chunkname], // 必须放在数组中，单个字符串不生效
     ...pluginConfig
   })
 }
 // HtmlWebpackConfig 配置
-exports.getAllHtmlWebpackConfig = () => {
+exports.getAllHtmlWebpackConfig = (pluginConfig = {}) => {
   let res = []
-  Object.keys(pageList).map(key => {
-    const item = pageList[key]
-    return res.push(createHtmlWebpackConfig(item.html, key))
+  Object.keys(appList).map(key => {
+    const item = appList[key]
+    return res.push(createHtmlWebpackConfig(config.base.pathPrefix + item.html, key, pluginConfig))
   })
   return res
 }
 // webpack 入口配置
 exports.getEntryWebpackConfig = () => {
   let res = {}
-  Object.keys(pageList).map(key => {
-    const item = pageList[key]
+  Object.keys(appList).map(key => {
+    const item = appList[key]
     return Object.assign(res, { [key]: item.js })
   })
   return res

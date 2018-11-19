@@ -7,12 +7,12 @@ const packageConfig = require('../package.json')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const appList = require('../config/app_list')
 
-exports.assetsPath = function (_path) {
+exports.assetsPath = function (_path, _pre = '') {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
     ? config.build.assetsSubDirectory
     : config.dev.assetsSubDirectory
 
-  return path.posix.join(assetsSubDirectory, _path)
+  return path.posix.join(_pre, assetsSubDirectory, _path)
 }
 
 exports.cssLoaders = function (options) {
@@ -105,7 +105,7 @@ const createHtmlWebpackConfig = (template, chunkname, pluginConfig) => {
     template,
     inject: true,
     favicon: '',
-    chunks: [chunkname], // 必须放在数组中，单个字符串不生效
+    chunks: [chunkname, `${chunkname}_manifest`, 'vendor', 'manifest'], // 必须放在数组中，单个字符串不生效
     ...pluginConfig
   })
 }
@@ -115,6 +115,23 @@ exports.getAllHtmlWebpackConfig = (pluginConfig = {}) => {
   Object.keys(appList).map(key => {
     const item = appList[key]
     return res.push(createHtmlWebpackConfig(config.base.pathPrefix + item.html, key, pluginConfig))
+  })
+  return res
+}
+// 打包压缩公共配置
+exports.getOptimizationConfig = () => {
+  let res = {}
+  Object.keys(appList).map(key => {
+    return Object.assign(res, {
+      [`${key}_manifest`]: {
+        // test: /[\\/]src[\\/]/,
+        test: new RegExp('[\\/]src[\\/]' + key + '[\\/]'), // 例如：/src/app1/
+        name: `${key}_manifest`,
+        minSize: 1,
+        chunks: 'all',
+        minChunks: 1
+      }
+    })
   })
   return res
 }

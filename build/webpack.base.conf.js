@@ -5,6 +5,9 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const appList = require('../config/app_list')
 const { VueLoaderPlugin } = require('vue-loader')
+const webpack = require('webpack')
+
+const env = require('../config/prod.env')
 
 const resolve = (dir) => {
   return path.join(__dirname, '..', dir)
@@ -36,7 +39,7 @@ const webpackConfig = {
   entry: getEntryCOnfig(),
   output: {
     path: config.build.assetsRoot,
-    filename: '[name]/[name].bundle.js',
+    filename: '[name]/js/[name].bundle.js',
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
@@ -44,8 +47,9 @@ const webpackConfig = {
   resolve: {
     extensions: ['.js', '.vue', '.json', 'less'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      '#': resolve('src/common/'),
+      '$': resolve('src/assets/')
     }
   },
   module: {
@@ -96,7 +100,10 @@ const webpackConfig = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': env
+    })
   ],
   node: {
     setImmediate: false,

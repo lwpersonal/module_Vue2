@@ -54,15 +54,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
-    ...(utils.getAllHtmlWebpackConfig({
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-      },
-      hash: true,
-      chunksSortMode: 'dependency'
-    }))
+    ...(utils.getAllHtmlWebpackConfig())
     // copy custom static assets
     // new CopyWebpackPlugin([
     //   {
@@ -73,8 +65,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // ])
   ]
 })
-
-
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port

@@ -1,4 +1,4 @@
-const a = 2
+const a = 24
 const fn = () => {
   console.log('app' + a)
 }

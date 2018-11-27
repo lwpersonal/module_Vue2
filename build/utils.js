@@ -144,3 +144,14 @@ exports.getEntryWebpackConfig = () => {
   })
   return res
 }
+// historyApiFallback 配置
+exports.getHistoryApiFallback = () => {
+  let res = []
+  Object.keys(appList).map(key => {
+    res.push({
+      from: new RegExp(`^\\/${key}`),
+      to: `/${key}/index.html`
+    })
+  })
+  return res
+}

@@ -20,14 +20,20 @@ console.log('a.b.d', get(a.d.c))
 
 console.log('999999', process.env)
 Vue.use(Vuex)
-Vue.config.productionTip = false
 
 // const store = new Vuex.Store(Store)
 /* eslint-disable no-new */
+
+// new Vue({
+//   el: '#app1',
+//   // store,
+//   // router,
+//   components: { App },
+//   template: '<App/>'
+// })
+
+Vue.config.productionTip = false
+
 new Vue({
-  el: '#app',
-  // store,
-  // router,
-  components: { App },
-  template: '<App/>'
-})
+  render: h => h(App)
+}).$mount('#app')
